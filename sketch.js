@@ -1,11 +1,13 @@
 let table;
-
-
+let engine;
 
 function setup() {
   createCanvas(2000, 1200);
 
-  table = new Table(300, 300, 1200, 600);
+  engine = Engine.create(); // create the engine
+  engine.world.gravity.y = 0; // set gravity to zero (not falling)
+
+  table = new Table(300, 300, 1200, 600); // declare the table
 
   table.initializeBalls();
   table.initializeHoles();
@@ -13,6 +15,8 @@ function setup() {
 
 function draw() {
   background(200);
+
+  Engine.update(engine);
 
   table.draw();
 }

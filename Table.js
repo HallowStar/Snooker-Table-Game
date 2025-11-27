@@ -19,6 +19,7 @@ class Table {
     let redBalls = [];
 
     let cueBall = new Ball(this.x + 150, this.y + this.h / 2, "white");
+    cueBall.setup();
 
     let startX = this.x + this.w - 50;
     let startY = this.y + this.h / 2;
@@ -55,9 +56,24 @@ class Table {
       greenBall
     );
 
+    // Run the Physic Engines
+    this.setupBallPhysics();
+
     console.log(this.balls);
 
     console.log(redBalls);
+  }
+
+  setupBallPhysics() {
+    for (let i = 0; i < this.balls.length; i++) {
+      if (Array.isArray(this.balls[i])) {
+        for (let j = 0; j < this.balls[i].length; j++) {
+          this.balls[i][j].setup();
+        }
+      } else {
+        this.balls[i].setup();
+      }
+    }
   }
 
   initializeHoles() {

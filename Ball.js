@@ -6,11 +6,17 @@ class Ball {
     this.iniY = y;
     this.w = table.h / 36;
     this.color = color;
+    this.ball;
+  }
+
+  setup() {
+    this.ball = Bodies.circle(this.x, this.y, this.w / 2);
+    World.add(engine.world, this.ball);
   }
 
   draw() {
     fill(this.color);
-    ellipse(this.x, this.y, this.w);
+    drawVertices(this.ball.vertices);
   }
 
   reset() {
