@@ -39,7 +39,7 @@ class Table {
     // Declare the colored balls
     let pinkBall = new Ball(startX - 310, startY, "pink");
     let blackBall = new Ball(startX - 70, startY, "black");
-    let blueBall = new Ball(startX - this.w / 2, startY, "blue");
+    let blueBall = new Ball(startX - this.w / 2 + 55, startY, "blue");
     let brownBall = new Ball(startX - this.w + 300, startY, "brown");
     let yellowBall = new Ball(startX - this.w + 300, startY + 100, "yellow");
     let greenBall = new Ball(startX - this.w + 300, startY - 100, "green");
@@ -58,6 +58,8 @@ class Table {
 
     // Run the Physic Engines
     this.setupBallPhysics();
+
+    Body.setVelocity(yellowBall.ball, { x: 30, y: -2 });
 
     console.log(this.balls);
 
@@ -84,6 +86,61 @@ class Table {
         );
       }
     }
+  }
+
+  createWalls() {
+    let prop = {
+      isStatic: true,
+      restitution: 0.9,
+      friction: 0,
+      frictionAir: 0,
+      frictionStatic: 0,
+    };
+
+    // Hidden Walls
+    push();
+    fill(0);
+    // rect(this.x, this.y, this.w, 1);
+    let wallOne = Bodies.rectangle(
+      this.x + this.w / 2,
+      this.y - 7,
+      this.w,
+      15,
+      prop
+    );
+    // drawVertices(wallOne.vertices);
+
+    let wallTwo = Bodies.rectangle(
+      this.x + this.w / 2,
+      this.y + this.h + 7,
+      this.w,
+      15,
+      prop
+    );
+
+    // drawVertices(wallTwo.vertices);
+
+    let wallThree = Bodies.rectangle(
+      this.x - 7,
+      this.y + this.h / 2,
+      15,
+      this.h,
+      prop
+    );
+
+    // drawVertices(wallThree.vertices);
+
+    let wallFour = Bodies.rectangle(
+      this.x + this.w + 50,
+      this.y + this.h / 2,
+      100,
+      this.h,
+      prop
+    );
+
+    // drawVertices(wallFour.vertices);
+
+    World.add(engine.world, [wallOne, wallTwo, wallThree, wallFour]);
   }
 
   drawProperties() {

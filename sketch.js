@@ -4,6 +4,8 @@ let engine;
 function setup() {
   createCanvas(2000, 1200);
 
+  // rectMode(CENTER)
+
   engine = Engine.create(); // create the engine
   engine.world.gravity.y = 0; // set gravity to zero (not falling)
 
@@ -11,6 +13,7 @@ function setup() {
 
   table.initializeBalls();
   table.initializeHoles();
+  table.createWalls();
 }
 
 function draw() {
