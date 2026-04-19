@@ -8,35 +8,40 @@ let timeRewind;
 let menu;
 
 function setup() {
-  createCanvas(1800, 1500);
+  // Create a canvas that fills the entire browser window
+  createCanvas(windowWidth, windowHeight);
 
   angleMode(RADIANS);
 
-  engine = Engine.create(); // create the engine
-  engine.world.gravity.y = 0; // set gravity to zero (not falling)
+  engine = Engine.create();
+  engine.world.gravity.y = 0;
 
-  engine.positionIterations = 100;
-  engine.velocityIterations = 100;
+  // Center the table based on the new dynamic width/height
+  let tableW = 1200;
+  let tableH = 600;
+  let tableX = (windowWidth - tableW) / 2;
+  let tableY = (windowHeight - tableH) / 2;
 
+  table = new Table(tableX, tableY, tableW, tableH);
+
+  // Update other UI components to use windowWidth/Height
   menu = new Menu();
-
-  // Declare the table & cue stick
-  table = new Table(300, 300, 1200, 600);
   cue = new Cue(100, 400, 500);
-
   cue.setup();
 
-  // Declare the score board & rules to apply
-  score = new Score(width - 150, 60);
+  score = new Score(windowWidth - 150, 60);
   rules = new Rule();
-
-  // Declare time rewind
   timeRewind = new TimeRewind(table);
 
-  // Initialize the properties of the table
   table.initializeBalls();
   table.initializeHoles();
   table.createWalls();
+}
+
+// Add this function so the game resizes if the user changes window size
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  // Optional: Recalculate table.x and table.y here if you want it to stay centered
 }
 
 function draw() {
@@ -106,8 +111,15 @@ function keyPressed() {
   }
 }
 
+// In sketch.js
 function mouseClicked() {
-  cue.selectCue();
+  // If we are not in the 'play' state, handle menu clicks instead
+  if (menu.gameState !== "play") {
+    menu.handleMousePressed();
+  } else {
+    // Standard gameplay click logic
+    cue.selectCue();
+  }
 }
 
 function mouseDragged() {
